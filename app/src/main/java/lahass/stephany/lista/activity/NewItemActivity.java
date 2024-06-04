@@ -1,4 +1,4 @@
-package lahass.stephany.lista;
+package lahass.stephany.lista.activity;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import lahass.stephany.lista.R;
 
 public class NewItemActivity extends AppCompatActivity {
 
