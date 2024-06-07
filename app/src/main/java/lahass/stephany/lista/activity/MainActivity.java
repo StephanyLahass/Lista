@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        public class MainActivity extends AppCompatActivity {
+           public class MainActivity extends AppCompatActivity {
 
             static int NEW_ITEM_REQUEST =1;
 
@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
                 //aqui comeca o botao FAB
-                FloatingActionButton fabAddItem =
-                        findViewById(R.id.fabAddNewItem);
+                FloatingActionButton fabAddItem = findViewById(R.id.fabAddNewItem);
                 //registra o ouvidor de clicks
                 fabAddItem.setOnClickListener(new View.OnClickListener() {
                     @Override
+                    //navega atraves do intent para o NewItemActivity
                     public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this,
-                                NewItemActivity.class);
+                        Intent i = new Intent(MainActivity.this,NewItemActivity.class);
+                        //executa o intent
                         startActivityForResult(i, NEW_ITEM_REQUEST);
                     }
                 });
