@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+
+import lahass.stephany.lista.R;
 import lahass.stephany.lista.activity.MainActivity;
 import lahass.stephany.lista.model.MyItem;
 
@@ -35,13 +37,18 @@ public class MyAdapter extends RecyclerView.Adapter {
 
         View v = holder.itemView;
 
-        ImageView imvfoto = v.findViewById(R.id.imvfoto);
+        ImageView imvfoto = v.findViewById(R.id.imvPhoto);
         imvfoto.setImageURI(myItem.photo);
 
         TextView tvTitle = v.findViewById(R.id.tvTitle);
         tvTitle.setText(myItem.title);
 
-        TextView tvdesc = v.findViewById(R.id.tvdesc);
+        TextView tvdesc = v.findViewById(R.id.tvDesc);
         tvdesc.setText(myItem.description);
+    }
+
+    @Override
+    public int getItemCount() {
+        return itens.size();
     }
 }
