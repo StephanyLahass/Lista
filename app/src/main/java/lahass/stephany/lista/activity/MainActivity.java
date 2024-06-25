@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         myAdapter = new MyAdapter(this, itens);
         rvItens.setAdapter(myAdapter);
 
+        //indica que não há variação de tamanho entre os itens da lista
         rvItens.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager;
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Esse pedaço verifica se as condições de retorno foram cumpridas e se sim, cria uma instância para guardar os dados do item.
+        //obtem os dados retornados e os guarda, adiciona o item a uma lista de itens.
         if (requestCode == NEW_ITEM_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 MyItem myItem = new MyItem();

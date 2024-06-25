@@ -48,6 +48,7 @@ public class NewItemActivity extends AppCompatActivity {
 
         Button btnAddItem = findViewById(R.id.btnAddItem);
         btnAddItem.setOnClickListener(new View.OnClickListener() {
+            // Nesse pedaço a activity deve verificar se todos os campos foram preenchidos e retornar esses dados para a Main.
             @Override
             public void onClick(View v) {
                 if (photoSelected == null) {
