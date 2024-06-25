@@ -3,6 +3,8 @@ package lahass.stephany.lista.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,16 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import lahass.stephany.lista.R;
 import lahass.stephany.lista.adapter.MyAdapter;
 import lahass.stephany.lista.model.MyItem;
+import lahass.stephany.lista.util.Util;
 
 public class MainActivity extends AppCompatActivity {
     static int NEW_ITEM_REQUEST =1;
-    List<MyItem> itens = new ArrayList<>();
     MyAdapter myAdapter;
 
     @Override
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         RecyclerView rvItens = findViewById(R.id.rvItens);
+        MainActivityViewModel vm = new ViewModelProvider( this ).get( MainActivityViewModel.class );
+        List<MyItem> itens = vm.getItens();
         myAdapter = new MyAdapter(this, itens);
         rvItens.setAdapter(myAdapter);
 
@@ -81,7 +86,23 @@ public class MainActivity extends AppCompatActivity {
                 MyItem myItem = new MyItem();
                 myItem.title = data.getStringExtra("title");
                 myItem.description = data.getStringExtra("description");
-                myItem.photo = data.getData();
+                Uri selectedPhotoURI = data.getData();
+
+                try {
+                    //carrega a imagem e a guarda dentro de um bitmap
+                    Bitmap photo = Util.getBitmap(MainActivity.this, selectedPhotoURI, 100, 100);
+                    //guarda o bitmap da imagem dentro de um objeto
+                    myItem.photo = photo;
+                }
+                // a exceção é disparada caso o arquivo de imagem não seja encontrado
+                catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                //obtem a lista
+                MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+                //guarda o novo item
+                List<MyItem> itens = vm.getItens();
 
                 itens.add(myItem);
                 myAdapter.notifyItemInserted(itens.size()-1);
