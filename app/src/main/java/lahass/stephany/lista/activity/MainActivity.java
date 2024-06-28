@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import lahass.stephany.lista.R;
 import lahass.stephany.lista.adapter.MyAdapter;
+import lahass.stephany.lista.model.MainActivityViewModel;
 import lahass.stephany.lista.model.MyItem;
 import lahass.stephany.lista.util.Util;
 
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //obtem a lista
+                //obtem a lista de itens
                 MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
                 //guarda o novo item
                 List<MyItem> itens = vm.getItens();

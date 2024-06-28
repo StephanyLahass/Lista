@@ -17,24 +17,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import lahass.stephany.lista.R;
+import lahass.stephany.lista.model.NewItemActivityViewModel;
 
 public class NewItemActivity extends AppCompatActivity {
 
     static int PHOTO_PICKER_REQUEST = 1;
-    Uri photoSelected = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_new_item);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        NewItemActivityViewModel vm = new ViewModelProvider( this ).get(NewItemActivityViewModel.class );
+        //obtem o endereco URI guardado dentro do ViewModel
+        Uri selectPhotoLocation = vm.getSelectPhotoLocation();
+        //se o endereço não for nulo, significa que o usuário escolheu uma imagem antes de rotacionar a tela
+        if (selectPhotoLocation != null) {
+            //seta a imagem da tela
+            ImageView imvfotoPreview = findViewById(R.id.imvPhotoPreview);
+            imvfotoPreview.setImageURI(selectPhotoLocation);
+        }
+
+
         // Nesse pedaço o botão é criado e puxa a imagem do usuário
         ImageButton imgCl = findViewById(R.id.imbCl);
         imgCl.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +60,7 @@ public class NewItemActivity extends AppCompatActivity {
             // Nesse pedaço a activity deve verificar se todos os campos foram preenchidos e retornar esses dados para a Main.
             @Override
             public void onClick(View v) {
+                Uri photoSelected = vm.getSelectPhotoLocation();
                 if (photoSelected == null) {
                     Toast.makeText(NewItemActivity.this, "É necessário selecionar uma imagem!", Toast.LENGTH_LONG).show();
                     return;
@@ -81,14 +91,20 @@ public class NewItemActivity extends AppCompatActivity {
     }
 
     @Override
-    // Armazena a foto
+    //Armazena a foto
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PHOTO_PICKER_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                photoSelected = data.getData();
-                ImageView imvfotoPreview = findViewById(R.id.imvPhotoPreview);
-                imvfotoPreview.setImageURI(photoSelected);
+                Uri photoSelected = data.getData();
+                ImageView imvPhotoPreview = findViewById(R.id.imvPhotoPreview);
+                imvPhotoPreview.setImageURI(photoSelected);
+
+                //Guarda o endereco URI da imagem escolhida
+                NewItemActivityViewModel vm = new ViewModelProvider( this).get( NewItemActivityViewModel.class );
+
+                vm.setSelectPhotoLocation(photoSelected);
+
             }
         }
     }
